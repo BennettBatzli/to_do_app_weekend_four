@@ -1,0 +1,31 @@
+.container {
+    float: right;
+    background-color: cornflowerblue;
+    height: 200vh;
+    width: 33vw;
+    border-radius: 10px;
+}
+
+.completed-container {
+    background-color: cadetblue;
+    height: 200vh;
+    width: 33vw;
+    float: left;
+    border-radius: 10px;
+}
+
+.create-task-container {
+    background-color: aquamarine;
+    height: 30vh;
+    width: 30vw;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+.active-task {
+    background-color: palevioletred;
+    height: 30vh;
+    width: 30vw;
+    border-radius: 10px;
+
+}

@@ -2,28 +2,28 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/vendors/bootstrap.min.css" />
     <link rel="stylesheet" href="../styles/style.css" />
     <script type="text/javascript" src="../vendors/jquery.min.js"></script>
     <script type="text/javascript" src="../scripts/clientapp.js"></script>
-    <!--if you just do "/scripts/clientapp.js". that slash is like saying "start at the root of the project" -->
-    <!--so you can do it that way too-->
+
     <title>Your Handy To-Do List</title>
 </head>
 <body>
     <h1>My To-Do List</h1>
-    <div class="completed-container">
-        <h2>Completed Tasks</h2>
-    </div>
-    <div class="container">
-        <h2>Unfinished Tasks</h2>
-    </div>
-    <div class="create-task-container">
+
+    <div class="create-task-container" class="col-md-5">
         <h2>Create New Task</h2>
         <form id="create-task-form">
             <label for="task_name">What needs doing? </label>
             <input type="text" id="task_name" name="task_name">
             <button id="submit-task">Submit</button>
         </form>
+    </div>
+    <div class="completed-container">
+        <h2>Tasks:</h2>
+    </div>
+    <div class="container">
     </div>
 </body>
 </html>

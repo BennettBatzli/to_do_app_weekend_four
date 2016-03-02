@@ -3,9 +3,7 @@ $(document).ready(function() {
   $('#submit-task').on('click', createNewTask);
   $('.container').on('click', '.delete-task', deleteTask);
   $('.container').on('click', '.complete-task', completeTask);
-
 });
-
 
 function createNewTask(){
 
@@ -18,11 +16,10 @@ function createNewTask(){
 
   $.ajax({
     type: 'POST',
-    url: '/to_do',
+    url: '/taskRoute',
     data: values,
     success: function (data) {
       if(data) {
-        //$('#container').empty();
         getData();
       } else {
         console.log('error');
@@ -32,14 +29,16 @@ function createNewTask(){
   });
 console.log(values);
 
+  $('#task_name').val('');
 
 }
 
 function getData() {
   $.ajax({
     type: 'GET',
-    url: '/to_do',
+    url: '/taskRoute',
     success: function (data) {
+      console.log("here's data::: ", data);
       appendDOM(data);
 
     }
@@ -48,13 +47,22 @@ function getData() {
 }
 
 function appendDOM(data){
+
   $('.container').empty();
   for (var i = 0; i < data.length; i++) {
-
-    $('.container').prepend('<div class="active-task"><p>' + data[i].id + ' ' + data[i].task_name + '</p><br>' +
+    $('.container').append('<div class="active-task"></div>');
+    var $el = $('.container').children().last();
+    $el.append('<p>' + data[i].id + ' ' + data[i].task_name + '</p><br>' +
       '<button class="complete-task" data-id="' + data[i].id + '">Complete</button><br>' +
-      '<button class="delete-task" data-id="' + data[i].id + '">Delete</button></div>');
+      '<button class="delete-task" data-id="' + data[i].id + '">Delete</button>');
+    if(data[i].complete == false ){
+    console.log('hi');
+    } else {
+      $el.toggleClass('completed');
+      $el.toggleClass('active-task');
 
+      $el.find('.complete-task').remove();
+    }
   }
 }
 
@@ -62,15 +70,19 @@ function appendDOM(data){
 function completeTask() {
   var completeID = {};
   completeID.id = $(this).data('id');
-
+  var $el = $(this).parent();
+  console.log('this is completeID:: ', completeID);
   $.ajax({
     type: 'PUT',
-    url: '/complete',
+    url: '/taskRoute',
     data: completeID,
     success: function (data) {
       if(data) {
-        //$('#container').empty();
-        getData();
+        console.log("data after complete button:: ", data);
+        $el.toggleClass('completed');
+        $el.toggleClass('active-task');
+
+        $el.find('.complete-task').remove();
       } else {
         console.log('error');
       }
@@ -84,19 +96,17 @@ function deleteTask() {
   deleteID.id = $(this).data('id');
   console.log('this is the delete ID: ' + deleteID);
 
-  //$(this).parent().fadeOut().remove();
   $(this).parent().fadeOut(500, function () {
     $(this).remove();
   });
 
   $.ajax({
-    type: 'POST',
-    url: '/remove',
+    type: 'DELETE',
+    url: '/taskRoute',
     data: deleteID,
     success: function (data) {
       if(data) {
-        //$('#container').empty();
-        getData();
+        return data;
       } else {
         console.log('error');
       }
@@ -104,16 +114,4 @@ function deleteTask() {
 
   });
 
-}
-
-function doAThing() {
-  $.ajax({
-    type: 'GET',
-    url: '/to_do',
-    success: function (data) {
-
-
-      return data.id;
-    }
-  });
 }
